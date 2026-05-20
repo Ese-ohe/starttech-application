@@ -12,7 +12,7 @@ RUN go build -o main ./cmd/api
 
 FROM alpine:latest
 
-WORKDIR /app
+WORKDIR /root/
 
 COPY --from=builder /app/main .
 
