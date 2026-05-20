@@ -40,10 +40,9 @@ func LoadConfig(path string) (config Config, err error) {
 	viper.SetDefault("ALLOWED_ORIGINS", []string{"http://localhost:5173"})
 
 	err = viper.ReadInConfig()
-	if err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
-			return
-		}
+if err != nil {
+        // Ignore missing .env file completely
+}
 	}
 
 	err = viper.Unmarshal(&config)
