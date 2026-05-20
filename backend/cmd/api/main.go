@@ -182,7 +182,7 @@ func setupRouter(db *mongo.Client, cfg config.Config, tokenSvc *auth.TokenServic
 	})
 
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "Welcome to MuchToDo API"})
+		c.JSON(http.StatusOK, gin.H{"message": "Welcome to StartTech Assessment 3 API"})
 	})
 
 	// Test route to debug /todos issue
