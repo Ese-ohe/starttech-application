@@ -25,11 +25,33 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Tests
+      - name: Run Unit Tests
         run: npm test -- --watchAll=false || true
 
-      - name: Build React App
+      - name: Build React Application
         run: npm run build
 
       - name: Run Security Audit
         run: npm audit --audit-level=high || true
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Deploy to S3
+        run: |
+          echo "Syncing frontend build files to S3 bucket..."
+          aws s3 sync build/ s3://starttech-frontend-bucket-demo
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          echo "Invalidating CloudFront distribution cache..."
+          aws cloudfront create-invalidation \
+            --distribution-id EXAMPLE123 \
+            --paths "/*"
+
+      - name: Deployment Notification
+        run: echo "Frontend deployment completed successfully."
