@@ -39,9 +39,10 @@ func LoadConfig(path string) (config Config, err error) {
 
 	// Read environment variables
 	viper.AutomaticEnv()
+viper.BindEnv("MONGO_URI")
 
-	// Set default values
-	viper.SetDefault("PORT", "8080")
+// Set default values
+viper.SetDefault("PORT", "8080")
 	viper.SetDefault("ENABLE_CACHE", false)
 	viper.SetDefault("JWT_EXPIRATION_HOURS", 72)
 	viper.SetDefault("COOKIE_DOMAINS", []string{"localhost"})
@@ -89,3 +90,4 @@ func LoadConfig(path string) (config Config, err error) {
 
 	return
 }
+
