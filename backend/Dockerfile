@@ -1,4 +1,5 @@
 FROM golang:1.24-alpine AS builder
+RUN echo "FORCE_REBUILD_V2"
 
 WORKDIR /app
 
