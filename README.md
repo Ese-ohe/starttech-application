@@ -1,167 +1,188 @@
-# MuchToDo API
+# StartTech Application
 
-A robust RESTful API for a ToDo application built with Go (Golang). This project features user authentication, JWT-based session management, CRUD operations for ToDo items, and an optional Redis caching layer.
+## Overview
 
-The API is built with a clean, layered architecture to separate concerns, making it scalable and easy to maintain. It includes a full suite of unit and integration tests and provides interactive API documentation via Swagger.
+StartTech is a full-stack cloud-native application consisting of:
 
-## Features
+- Golang backend API
+- React frontend
+- MongoDB database
+- Redis caching layer
+- Dockerized services
+- CI/CD automation using GitHub Actions
 
-* **User Management**: Secure user registration, login, update, and deletion.
-* **Authentication**: JWT-based authentication that supports both `httpOnly` cookies (for web clients) and `Authorization` headers.
-* **CRUD for ToDos**: Full create, read, update, and delete functionality for user-specific ToDo items.
-* **Structured Logging**: Configurable, structured JSON logging with request context for production-ready monitoring.
-* **Optional Caching**: Redis-backed caching layer that can be toggled on or off via environment variables.
-* **API Documentation**: Auto-generated interactive Swagger documentation.
-* **Testing**: Comprehensive unit and integration test suites.
-* **Graceful Shutdown**: The server shuts down gracefully, allowing active requests to complete.
+The application is deployed on AWS using a production-style infrastructure with Auto Scaling, Application Load Balancer, CloudFront, and Terraform.
 
-## Prerequisites
+---
 
-To run this project locally, you will need the following installed:
+# Application Stack
 
-* **Go**: Version 1.21 or later.
-* **Swag CLI**: To generate the Swagger API documentation.
-* **Make** (optional, for easier command execution):
+## Backend
 
-  On macOS, you can install `make` via Homebrew if it's not already available:
+- Golang
+- Gin Framework
+- MongoDB Atlas
+- Redis
+- Docker
 
-  ```bash
-  brew install make
-  ```
+## Frontend
 
-  On Linux, `make` is usually pre-installed or available via your package manager.
+- React
+- Vite
 
-```bash
-go install github.com/swaggo/swag/cmd/swag@latest
-```
+## DevOps
 
-## Using Make
+- Docker
+- GitHub Actions
+- AWS
+- Terraform
 
-This project includes a `Makefile` to simplify common development tasks. You can use `make <target>` to run commands such as starting the server, building, running tests, and managing Docker containers.
+---
 
-## Getting Started
+# Features
 
-### 1. Clone the Repository
+- REST API backend
+- Frontend web application
+- Health check endpoint
+- Docker containerization
+- Rolling deployments
+- Auto scaling
+- CloudFront CDN delivery
+- CI/CD automation
 
-```bash
-git clone <your-repository-url>
-cd much-to-do/Server/MuchToDo
-```
+---
 
-### 2. Configure Environment Variables
+# Backend API
 
-Create a `.env` file in the root of the project by copying the example.
-
-```bash
-cp .env.example .env
-```
-
-Now, open the `.env` file and **change the** `JWT_SECRET_KEY` to a new, long, random string.
-
-Also, ensure that the `MONGO_URI` and `DB_NAME` points to your local MongoDB instance and db.
-
-You can leave the other variables as they are for local development.
-
-### 3. Start Local Dependencies
-
-With Docker running, start the MongoDB and Redis containers using Docker Compose.
+Default backend port:
 
 ```bash
-docker-compose up -d
+8080
 ```
-**Or using Make:**
+
+Health endpoint:
+
 ```bash
-make dc-up
+/health
 ```
 
-### 4. Install Go Dependencies
+---
 
-Download the necessary Go modules.
+# Running Locally
+
+## Backend
+
+Navigate to backend directory:
+
+```bash
+cd backend
+```
+
+Install dependencies:
 
 ```bash
 go mod tidy
 ```
-**Or using Make:**
-```bash
-make tidy
-```
 
-### 5. Generate API Documentation
-
-Generate the Swagger/OpenAPI documentation from the code comments.
+Run backend:
 
 ```bash
-swag init -g cmd/api/main.go
-```
-**Or using Make:**
-```bash
-make generate-docs
+go run main.go
 ```
 
-### 6. Run the Application
+---
 
-You can now run the API server.
+# Docker
+
+## Build Backend Image
 
 ```bash
-go run ./cmd/api/main.go
-```
-**Or using Make (also generates docs first):**
-```bash
-make run
+docker build -t starttech-backend .
 ```
 
-The server will start, and you should see log output in your terminal.
-
-* The API will be available at `http://localhost:8080`.
-* The interactive Swagger documentation will be at `http://localhost:8080/swagger/index.html`.
-
-## Running Tests
-
-The project includes both unit and integration tests.
-
-### Run Unit Tests
-
-These tests are fast and do not require any external dependencies.
+## Run Backend Container
 
 ```bash
-go test ./...
+docker run -p 8080:8080 starttech-backend
 ```
-**Or using Make:**
+
+---
+
+# Environment Variables
+
+Backend requires:
+
+```env
+MONGO_URI=
+DB_NAME=
+PORT=
+JWT_SECRET_KEY=
+```
+
+---
+
+# CI/CD Pipeline
+
+GitHub Actions automates:
+
+- Testing
+- Docker image build
+- Docker image push
+- Rolling deployments
+- Auto Scaling Group refresh
+
+Workflow file:
+
 ```bash
-make unit-test
+.github/workflows/backend-ci-cd.yml
 ```
 
-### Run Integration Tests
+---
 
-These tests require Docker to be running as they spin up their own temporary database and cache containers.
+# Deployment Architecture
+
+Infrastructure repository:
 
 ```bash
-INTEGRATION=true go test -v --tags=integration ./...
+starttech-infra
 ```
-**Or using Make:**
+
+Contains:
+
+- Terraform modules
+- AWS infrastructure
+- CloudFront
+- Auto Scaling
+- Redis
+- Monitoring
+- Runbooks
+
+---
+
+# Repository Structure
+
 ```bash
-make integration-test
+backend/
+frontend/
+.github/
 ```
 
-The `INTEGRATION=true` environment variable is required to explicitly enable these tests. The `-v` flag provides verbose output.
+---
 
-## Other Useful Make Commands
+# Monitoring
 
-- **Build the binary:**  
-  ```bash
-  make build
-  ```
-- **Clean build artifacts:**  
-  ```bash
-  make clean
-  ```
-- **Stop Docker containers:**  
-  ```bash
-  make dc-down
-  ```
-- **Restart Docker containers:**  
-  ```bash
-  make dc-restart
-  ```
+Monitoring is implemented using:
 
-Refer to the `Makefile` for more available commands.
+- CloudWatch
+- Auto Scaling alarms
+- Application Load Balancer health checks
+
+---
+
+# Author
+
+## Author
+
+**Eseohe Asuelimen**  
+Cloud Engineering Student, AltSchool Africa  
+Assessment 3 – Production-Grade AWS Infrastructure Project
