@@ -68,11 +68,10 @@ jobs:
       - name: Smoke Test
         run: echo "Running smoke tests"
 
-      - name: Rolling Deployment
-        run: echo "Deploying backend using rolling update strategy"
-
-      - name: CloudWatch Monitoring
-        run: echo "CloudWatch logging and monitoring enabled"
+            - name: Trigger Instance Refresh
+        run: |
+          aws autoscaling start-instance-refresh \
+          --auto-scaling-group-name starttech-backend-asg
 
       - name: Deployment Notification
         run: echo "Backend deployment completed successfully"
