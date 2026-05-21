@@ -32,7 +32,8 @@ jobs:
         run: go test ./... -tags=integration || true
 
       - name: Run vulnerability scan
-        run: go list -json -deps ./... | nancy sleuth || true
+        run: |
+          go list -json -deps ./... | nancy sleuth || true
 
       - name: Build Docker image
         run: |
@@ -51,12 +52,12 @@ jobs:
       - name: Tag Docker image
         run: |
           docker tag starttech-backend \
-          ${{ secrets.DOCKER_USERNAME }}/starttech-backend:latest
+            ${{ secrets.DOCKER_USERNAME }}/starttech-backend:latest
 
       - name: Push Docker image
         run: |
           docker push \
-          ${{ secrets.DOCKER_USERNAME }}/starttech-backend:latest
+            ${{ secrets.DOCKER_USERNAME }}/starttech-backend:latest
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -66,12 +67,14 @@ jobs:
           aws-region: us-east-1
 
       - name: Smoke Test
-        run: echo "Running smoke tests"
+        run: |
+          echo "Running smoke tests"
 
-            - name: Trigger Instance Refresh
+      - name: Trigger Instance Refresh
         run: |
           aws autoscaling start-instance-refresh \
-          --auto-scaling-group-name starttech-backend-asg
+            --auto-scaling-group-name starttech-backend-asg
 
       - name: Deployment Notification
-        run: echo "Backend deployment completed successfully"
+        run: |
+          echo "Backend deployment completed successfully"
